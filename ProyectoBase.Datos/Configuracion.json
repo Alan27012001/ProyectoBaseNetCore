@@ -1,0 +1,13 @@
+{
+  "exclude": [
+    "**/bin",
+    "**/bower_components",
+    "**/jspm_packages",
+    "**/node_modules",
+    "**/obj",
+    "**/platforms"
+  ],
+  "ConnectionStrings": {
+    "DefaultConnection": "data source=den1.mssql7.gear.host;initial catalog=proyectonetcore;persist security info=True;user id=proyectonetcore;password=Mo0h_x5B4-4R"
+  }
+}
