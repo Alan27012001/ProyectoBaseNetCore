@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using ProyectoBase.Entidades;
+using ProyectoBase.Helpers;
 using ProyectoBase.Logica;
 using ProyectoBase.Models;
 using System;
@@ -15,6 +17,8 @@ namespace ProyectoBase.Controllers
 {
     public class LoginController : Controller
     {
+        protected Constantes constantes = new Constantes();
+        
         public IActionResult Index()
         {
             return View();
@@ -44,7 +48,8 @@ namespace ProyectoBase.Controllers
                 }
                 else
                 {
-                    ViewBag.Error = "Cuenta de Usuario / Contraseña Incorrectos";
+                    constantes.seguridad = new Constantes.Seguridad();
+                    ViewBag.Error = constantes.seguridad.cuentaUsuarioContrasena;
                     return View("Index");
                 }
             }

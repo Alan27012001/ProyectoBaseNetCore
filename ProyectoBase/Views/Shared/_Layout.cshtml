@@ -6,6 +6,10 @@
     <title>@ViewData["Title"] - ProyectoBase</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+
+    <!--IMPLEMENTACION DE ICONS-->
+    <link rel="stylesheet" href="~/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/fontawesome.min.css" />
 </head>
 <body>
     <header>
@@ -28,9 +32,17 @@
                 </div>
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <div class="navbar float-end">
-                        <a class="btn btn-primary" asp-controller="Login" asp-action="Salir">Cerrar Sesión </a>
-                    </div>
+                    @*<div id="CerrarSesion" class="navbar float-end">
+                            <a class="btn btn-primary" asp-controller="Login" asp-action="Salir">Cerrar Sesión </a>
+                        </div>*@
+
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <form id="CerrarSesion" class="form-check-inline" asp-area="Identity" asp-controller="Login" asp-action="Salir">
+                                <button type="submit" class="nav-link btn btn-primary text-white">Cerrar Sesión</button>
+                            </form>
+                        </li>
+                    </ul>
                 }
             </div>
         </nav>
@@ -49,6 +61,36 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <!--IMPLEMENTACION DE ICONS-->
+    <script src="~/js/all.min.js"></script>
+    <script src="~/js/fontawesome.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
+    <!--CODIGO PARA CERRAR SESION AUTOMATICA-->
+    <script>
+        const usuarioAutenticado = '@User.Identity!.IsAuthenticated' === 'True';
+        const cantidadSegundosDeslogueo = 300 * 1000;
+        if (usuarioAutenticado) {
+
+            tiempoInactivo();
+
+            function tiempoInactivo() {
+                let tiempo;
+
+                document.onmousemove = restablecerTiempo;
+                document.onkeypress = restablecerTiempo;
+
+                function restablecerTiempo() {
+                    clearTimeout(tiempo);
+                    tiempo = setTimeout(Salir, cantidadSegundosDeslogueo);
+                }
+
+                function Salir() {
+                    const cerrarSesion = document.getElementById('CerrarSesion');
+                    cerrarSesion.submit();
+                }
+            }
+        }
+    </script>
 </body>
 </html>

@@ -28,7 +28,7 @@ namespace ProyectoBase
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(option =>
                 {
-                    option.ExpireTimeSpan = TimeSpan.FromMinutes(60 * 1);
+                    option.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                     option.LoginPath = "/Login/Index";
                     option.AccessDeniedPath = "/Login/Index";
                 });
@@ -37,6 +37,7 @@ namespace ProyectoBase
                 option.IdleTimeout = TimeSpan.FromMinutes(5);
                 option.Cookie.HttpOnly = true;
                 option.Cookie.IsEssential = true;
+                
             });
         }
 
