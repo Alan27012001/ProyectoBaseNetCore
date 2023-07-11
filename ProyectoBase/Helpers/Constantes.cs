@@ -16,6 +16,8 @@ namespace ProyectoBase.Helpers
         public partial class Seguridad
         {
             public string cuentaUsuarioContrasena = "Cuenta y/o contraseña incorrectos";
+            public string cuentaBloqueadaUsuario = "Tu cuenta se encuentra bloqueada debido al exceso de Intentos(5), Favor de Comunicarse con el Area de TI.";
+
         }
         #endregion
     }

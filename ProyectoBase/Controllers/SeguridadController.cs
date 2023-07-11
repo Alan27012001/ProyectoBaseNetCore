@@ -31,6 +31,8 @@ namespace ProyectoBase.Controllers
             UsuarioLogica usuarioLogica = new UsuarioLogica();
             Usuario usuario = new Usuario();
             Sesion sesion = new Sesion();
+            UsuarioBloqueado usuarioBloqueado = new UsuarioBloqueado();
+            constantes.seguridad = new Constantes.Seguridad();
             try
             {
                 usuario.Cuenta = modelo.Cuenta;
@@ -39,11 +41,11 @@ namespace ProyectoBase.Controllers
 
                 if (usuario.ClaveUsuario != 0)
                 {
-                    var identidad = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, usuario.Cuenta) },
+                    var identidad = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, usuario.Cuenta.ToString()) },
                         CookieAuthenticationDefaults.AuthenticationScheme);
                     var principal = new ClaimsPrincipal(identidad);
                     HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-                    HttpContext.Session.SetString("Cuenta", usuario.Cuenta);
+                    HttpContext.Session.SetString("Cuenta", usuario.Cuenta.ToString());
 
                     //Registrar la Sesion del usuario
                     sesion.IdUsuario = usuario.ClaveUsuario;
@@ -54,8 +56,15 @@ namespace ProyectoBase.Controllers
                 }
                 else
                 {
-                    constantes.seguridad = new Constantes.Seguridad();
-                    ViewBag.Error = constantes.seguridad.cuentaUsuarioContrasena;
+                    //Consultar si el usuario esta bloqueado por numero Exceder numero de Intentos
+                    usuarioBloqueado.Cuenta = modelo.Cuenta;
+                    usuarioBloqueado = usuarioLogica.ConsultarUsuarioBloqueadoPorIntento(usuarioBloqueado);
+
+                    if (usuarioBloqueado.NumeroIntentoLogin == 5)
+                        ViewBag.Error = constantes.seguridad.cuentaBloqueadaUsuario;
+                    else
+                        ViewBag.Error = constantes.seguridad.cuentaUsuarioContrasena;
+
                     return View("Index");
                 }
             }

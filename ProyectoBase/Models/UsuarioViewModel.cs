@@ -19,7 +19,7 @@ namespace ProyectoBase.Models
 
         [Required(ErrorMessage = "El campo es obligatorio")]
         [Display(Name = "Cuenta")]
-        public string Cuenta { get; set; }
+        public int Cuenta { get; set; }
         
         public bool EsAdmin { get; set; }
         
@@ -38,5 +38,6 @@ namespace ProyectoBase.Models
         public int ClaveArea { get; set; }
         
         public string Correo { get; set; }
+        public int NumeroIntentoLogin { get; set; }
     }
 }

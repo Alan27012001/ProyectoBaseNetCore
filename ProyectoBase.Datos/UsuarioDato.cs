@@ -22,7 +22,7 @@ namespace ProyectoBase.Datos
                 SqlDataReader dr = null;
                 cmd = new SqlCommand("SEG_ConsultarUsuario", conexion);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Cuenta", string.IsNullOrEmpty(usuario.Cuenta) ? "" : usuario.Cuenta);
+                cmd.Parameters.AddWithValue("@Cuenta", usuario.Cuenta);
                 cmd.Parameters.AddWithValue("@Contrasena", string.IsNullOrEmpty(usuario.Contrasena) ? "" : usuario.Contrasena);
                 conexion.Open();
                 dr = cmd.ExecuteReader();
@@ -31,7 +31,7 @@ namespace ProyectoBase.Datos
                     oUsuario.ClaveUsuario = Convert.ToInt32(dr["ClaveUsuario"]);
                     oUsuario.Contrasena = string.IsNullOrEmpty(dr["Contrasena"].ToString()) ? string.Empty : dr["Contrasena"].ToString();
                     oUsuario.Activo = Convert.ToBoolean(dr["Activo"]);
-                    oUsuario.Cuenta = string.IsNullOrEmpty(dr["Cuenta"].ToString()) ? string.Empty : dr["Cuenta"].ToString();
+                    oUsuario.Cuenta = Convert.ToInt32(dr["Cuenta"]);
                     oUsuario.EsAdmin = Convert.ToBoolean(dr["EsAdmin"]);
                     oUsuario.NombreTrabajador = string.IsNullOrEmpty(dr["NombreTrabajador"].ToString()) ? string.Empty : dr["NombreTrabajador"].ToString();
                     oUsuario.ClaveDepartamento = Convert.ToInt32(dr["ClaveDepartamento"]);
@@ -41,8 +41,43 @@ namespace ProyectoBase.Datos
                     oUsuario.ClavePuesto = Convert.ToInt32(dr["ClavePuesto"]);
                     oUsuario.ClaveArea = Convert.ToInt32(dr["ClaveArea"]);
                     oUsuario.Correo = string.IsNullOrEmpty(dr["Correo"].ToString()) ? string.Empty : dr["Correo"].ToString();
+                    oUsuario.NumeroIntentoLogin = Convert.ToInt32(dr["NumeroIntentoLogin"]);
                 }
                 return oUsuario;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.InnerException == null ? ex.Message : ex.InnerException.Message);
+            }
+            finally
+            {
+                conexion.Close();
+            }
+        }
+
+        public UsuarioBloqueado ConsultarUsuarioBloqueadoPorIntento(UsuarioBloqueado usuarioBloqueado)
+        {
+            SqlConnection conexion = null;
+            try
+            {
+                conexion = Conexion.obtenerInstancias().conexionBaseDatos();
+                UsuarioBloqueado oUsuarioBloqueado = new UsuarioBloqueado();
+                SqlCommand cmd = null;
+                SqlDataReader dr = null;
+                cmd = new SqlCommand("SEG_ConsultarUsuarioBloqueado", conexion);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Cuenta", usuarioBloqueado.Cuenta);
+                conexion.Open();
+                dr = cmd.ExecuteReader();
+                if (dr.Read())
+                {
+                    oUsuarioBloqueado.ClaveUsuario = Convert.ToInt32(dr["ClaveUsuario"]);
+                    oUsuarioBloqueado.Contrasena = string.IsNullOrEmpty(dr["Contrasena"].ToString()) ? string.Empty : dr["Contrasena"].ToString();
+                    oUsuarioBloqueado.Activo = Convert.ToBoolean(dr["Activo"]);
+                    oUsuarioBloqueado.Cuenta = Convert.ToInt32(dr["Cuenta"]);
+                    oUsuarioBloqueado.NumeroIntentoLogin = Convert.ToInt32(dr["NumeroIntentoLogin"]);
+                }
+                return oUsuarioBloqueado;
             }
             catch (Exception ex)
             {

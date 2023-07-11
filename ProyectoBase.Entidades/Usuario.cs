@@ -7,7 +7,7 @@ namespace ProyectoBase.Entidades
         public int ClaveUsuario { get; set; }
         public string Contrasena { get; set; }
         public bool Activo { get; set; }
-        public string Cuenta { get; set; }
+        public int Cuenta { get; set; }
         public bool EsAdmin { get; set; }
         public string NombreTrabajador { get; set; }
         public int ClaveDepartamento { get; set; }
@@ -17,5 +17,6 @@ namespace ProyectoBase.Entidades
         public int ClavePuesto { get; set; }
         public int ClaveArea { get; set; }
         public string Correo { get; set; }
+        public int NumeroIntentoLogin { get; set; }
     }
 }

@@ -18,6 +18,12 @@ namespace ProyectoBase.Logica
             return usuarioDato.ConsultarUsuario(usuario);
         }
 
+        public UsuarioBloqueado ConsultarUsuarioBloqueadoPorIntento(UsuarioBloqueado usuarioBloqueado)
+        {
+            usuarioDato = new UsuarioDato();
+            return usuarioDato.ConsultarUsuarioBloqueadoPorIntento(usuarioBloqueado);
+        }
+
         public void GuardarSesionUsuario(Sesion sesion)
         {
             if (sesion != null)
