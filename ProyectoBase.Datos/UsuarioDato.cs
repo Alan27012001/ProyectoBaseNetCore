@@ -53,5 +53,33 @@ namespace ProyectoBase.Datos
                 conexion.Close();
             }
         }
+
+        public void GuardarSesionUsuario(Sesion sesion)
+        {
+            SqlConnection conexion = null;
+            try
+            {
+                conexion = Conexion.obtenerInstancias().conexionBaseDatos();
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "SEG_GuardarSesionUsuario";
+                cmd.Connection = conexion;
+
+                cmd.Parameters.AddWithValue("@IdUsuario", sesion.IdUsuario);
+                cmd.Parameters.AddWithValue("@Fecha", sesion.Fecha);
+
+                conexion.Open();
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.InnerException == null ? ex.Message : ex.InnerException.Message);
+            }
+            finally
+            {
+                conexion.Close();
+            }
+        }
     }
 }

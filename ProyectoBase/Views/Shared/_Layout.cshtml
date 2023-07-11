@@ -32,10 +32,6 @@
                 </div>
                 @if (User.Identity.IsAuthenticated)
                 {
-                    @*<div id="CerrarSesion" class="navbar float-end">
-                            <a class="btn btn-primary" asp-controller="Login" asp-action="Salir">Cerrar Sesión </a>
-                        </div>*@
-
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <form id="CerrarSesion" class="form-check-inline" asp-area="Identity" asp-controller="Login" asp-action="Salir">

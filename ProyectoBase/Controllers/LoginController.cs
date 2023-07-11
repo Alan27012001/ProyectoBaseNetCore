@@ -28,10 +28,11 @@ namespace ProyectoBase.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Ingresar(UsuarioViewModel modelo)
         {
+            UsuarioLogica usuarioLogica = new UsuarioLogica();
+            Usuario usuario = new Usuario();
+            Sesion sesion = new Sesion();
             try
             {
-                UsuarioLogica usuarioLogica = new UsuarioLogica();
-                Usuario usuario = new Usuario();
                 usuario.Cuenta = modelo.Cuenta;
                 usuario.Contrasena = modelo.Contrasena;
                 usuario = usuarioLogica.ConsultarUsuario(usuario);
@@ -43,6 +44,11 @@ namespace ProyectoBase.Controllers
                     var principal = new ClaimsPrincipal(identidad);
                     HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
                     HttpContext.Session.SetString("Cuenta", usuario.Cuenta);
+
+                    //Registrar la Sesion del usuario
+                    sesion.IdUsuario = usuario.ClaveUsuario;
+                    sesion.Fecha = DateTime.Now;
+                    usuarioLogica.GuardarSesionUsuario(sesion);
 
                     return Redirect("~/Home/Index");
                 }

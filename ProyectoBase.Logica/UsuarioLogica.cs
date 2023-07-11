@@ -7,14 +7,24 @@ namespace ProyectoBase.Logica
 {
     public class UsuarioLogica
     {
+        UsuarioDato usuarioDato;
         public Usuario ConsultarUsuario(Usuario usuario)
         {
-            UsuarioDato usuarioDato = new UsuarioDato();
+            usuarioDato = new UsuarioDato();
             string contrasena = usuario.Contrasena.ToString();
             string resultadoEncriptacion = string.Empty;
             resultadoEncriptacion = Encriptar(contrasena);
             usuario.Contrasena = resultadoEncriptacion;
             return usuarioDato.ConsultarUsuario(usuario);
+        }
+
+        public void GuardarSesionUsuario(Sesion sesion)
+        {
+            if (sesion != null)
+            {
+                usuarioDato = new UsuarioDato();
+                usuarioDato.GuardarSesionUsuario(sesion);
+            }           
         }
 
         public string Encriptar(string texto)
