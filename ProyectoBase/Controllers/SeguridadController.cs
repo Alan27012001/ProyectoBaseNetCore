@@ -15,15 +15,15 @@ using System.Threading.Tasks;
 
 namespace ProyectoBase.Controllers
 {
-    public class LoginController : Controller
+    public class SeguridadController : Controller
     {
         protected Constantes constantes = new Constantes();
-        
         public IActionResult Index()
         {
             return View();
         }
 
+        #region Login
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Ingresar(UsuarioViewModel modelo)
@@ -37,7 +37,7 @@ namespace ProyectoBase.Controllers
                 usuario.Contrasena = modelo.Contrasena;
                 usuario = usuarioLogica.ConsultarUsuario(usuario);
 
-                if(usuario.ClaveUsuario != 0)
+                if (usuario.ClaveUsuario != 0)
                 {
                     var identidad = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, usuario.Cuenta) },
                         CookieAuthenticationDefaults.AuthenticationScheme);
@@ -69,7 +69,8 @@ namespace ProyectoBase.Controllers
         public IActionResult Salir()
         {
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Login");
+            return RedirectToAction("Index", "Seguridad");
         }
+        #endregion
     }
 }

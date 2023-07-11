@@ -37,10 +37,10 @@
                         <h5 class="modal-title" id="exampleModalLabel">Error al iniciar sesión</h5>
                     </div>
                     <div class="modal-body">
-                      <i class="fa fa-edge"> </i> @ViewBag.Error
+                        <i class="fa fa-edge"> </i> @ViewBag.Error
                     </div>
                     <div class="modal-footer">
-                        <a class="btn btn-primary" asp-controller="Login" asp-action="Index">Cerrar</a>
+                        <a class="btn btn-primary" asp-controller="Seguridad" asp-action="Index">Cerrar</a>
                     </div>
                 </div>
             </div>
@@ -48,7 +48,7 @@
         <script type="text/javascript">
             document.getElementById("btn_modal").click();
             //Se implemento esta modificacion de URL debido a que se esta formando mal al abrir el Modal
-            history.pushState(null, "", "http://localhost:19981/Login/Index");
+            history.pushState(null, "", "http://localhost:19981/Seguridad/Index");
         </script>
     }
     <main class="row">
@@ -65,28 +65,28 @@
                     <h2 class="col-12 text-center">Iniciar sesión</h2>
                 </div>
                 <div class="row">
-                    <form action="~/Login/Ingresar" method="post" class="col-12 col-md-8 offset-md-2" id="log_modal">
-                            @Html.AntiForgeryToken()
-                            @Html.HiddenFor(model => model.ClaveUsuario)
-                            <div class="form-group">
+                    <form action="~/Seguridad/Ingresar" method="post" class="col-12 col-md-8 offset-md-2" id="log_modal">
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.ClaveUsuario)
+                        <div class="form-group">
 
-                                @Html.EditorFor(model => model.Cuenta, new { htmlAttributes = new { @class = "form-control", @Placeholder = "Cuenta Usuario", @Required = "true" } })
-                                @Html.ValidationMessageFor(model => model.Cuenta, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="form-group">
+                            @Html.EditorFor(model => model.Cuenta, new { htmlAttributes = new { @class = "form-control", @Placeholder = "Cuenta Usuario", @Required = "true" } })
+                            @Html.ValidationMessageFor(model => model.Cuenta, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
 
-                                @Html.EditorFor(model => model.Contrasena, new { htmlAttributes = new { @class = "form-control", @Placeholder = "Contraseña", @Type = "password", @Required = "true" } })
-                                @Html.ValidationMessageFor(model => model.Contrasena, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="form-group text-center pt-4">
-                                <input type="submit" class="btn btn-primary" value="Ingresar">
-                            </div>
-                        </form>
+                            @Html.EditorFor(model => model.Contrasena, new { htmlAttributes = new { @class = "form-control", @Placeholder = "Contraseña", @Type = "password", @Required = "true" } })
+                            @Html.ValidationMessageFor(model => model.Contrasena, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group text-center pt-4">
+                            <input type="submit" class="btn btn-primary" value="Ingresar">
+                        </div>
+                    </form>
                 </div>
             </div>
         </section>
     </main>
-      <!--IMPLEMENTACION DE ICONS-->
+    <!--IMPLEMENTACION DE ICONS-->
     <script src="~/js/all.min.js"></script>
     <script src="~/js/fontawesome.js"></script>
 </body>

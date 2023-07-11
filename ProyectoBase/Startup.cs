@@ -29,8 +29,8 @@ namespace ProyectoBase
                 .AddCookie(option =>
                 {
                     option.ExpireTimeSpan = TimeSpan.FromMinutes(60);
-                    option.LoginPath = "/Login/Index";
-                    option.AccessDeniedPath = "/Login/Index";
+                    option.LoginPath = "/Seguridad/Index";
+                    option.AccessDeniedPath = "/Seguridad/Index";
                 });
             services.AddSession(option =>
             {
@@ -66,7 +66,7 @@ namespace ProyectoBase
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Login}/{action=Index}/{id?}");
+                    pattern: "{controller=Seguridad}/{action=Index}/{id?}");
             });
         }
     }
