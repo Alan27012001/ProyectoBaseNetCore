@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.33801.447
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProyectoBase", "ProyectoBase\ProyectoBase.csproj", "{0FED6CAE-8737-4C8C-A2D2-8D7C4533CF57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProyectoBase", "ProyectoBase\ProyectoBase.csproj", "{0FED6CAE-8737-4C8C-A2D2-8D7C4533CF57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProyectoBase.Datos", "ProyectoBase.Datos\ProyectoBase.Datos.csproj", "{E9D1687E-EECC-4037-A574-E6D02537A19B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProyectoBase.Datos", "ProyectoBase.Datos\ProyectoBase.Datos.csproj", "{E9D1687E-EECC-4037-A574-E6D02537A19B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProyectoBase.Logica", "ProyectoBase.Logica\ProyectoBase.Logica.csproj", "{A33DC513-C649-4109-A837-CC57CAA960E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProyectoBase.Logica", "ProyectoBase.Logica\ProyectoBase.Logica.csproj", "{A33DC513-C649-4109-A837-CC57CAA960E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProyectoBase.Entidades", "ProyectoBase.Entidades\ProyectoBase.Entidades.csproj", "{C5E9A3E8-5B25-4DF1-B46F-498A19EDB107}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProyectoBase.Entidades", "ProyectoBase.Entidades\ProyectoBase.Entidades.csproj", "{C5E9A3E8-5B25-4DF1-B46F-498A19EDB107}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

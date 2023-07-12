@@ -14,6 +14,13 @@
 
   <ItemGroup>
     <None Include="wwwroot\css\Login.css" />
+    <None Include="wwwroot\Imagenes\Nidec02.jpg" />
+    <None Include="wwwroot\Imagenes\Nidec3.gif" />
+    <None Include="wwwroot\Imagenes\Picture2.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Imagenes\" />
   </ItemGroup>
 
 </Project>
