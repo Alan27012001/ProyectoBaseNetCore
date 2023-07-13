@@ -1,13 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using ProyectoBase.Entidades;
+using ProyectoBase.Logica;
 using ProyectoBase.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace ProyectoBase.Controllers
@@ -24,6 +28,23 @@ namespace ProyectoBase.Controllers
 
         public IActionResult Index()
         {
+            MenuLogica menuLogica = new MenuLogica();
+            Menu menu = new Menu();
+
+            //Recuperar la cuenta del usuario Logueado
+            string cuentaUsuario = HttpContext.Session.GetString("Cuenta");
+
+            if (string.IsNullOrEmpty(cuentaUsuario))
+                return RedirectToAction("Index","Seguridad");
+
+            //Consultar menu por perfil de cada usuario
+            List<Menu> menuLista = menuLogica.ConsultarMenuPadre(Convert.ToInt32(cuentaUsuario));
+
+            string json = JsonSerializer.Serialize(menuLista);
+            ViewBag.Json = json;
+
+            //Guardar Json para otros controller
+            HttpContext.Session.SetString("json",json);
             return View();
         }
 
