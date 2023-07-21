@@ -19,6 +19,8 @@
     <!--IMPLEMENTACION DE ICONS-->
     <link rel="stylesheet" href="~/css/all.min.css" />
     <link rel="stylesheet" href="~/css/fontawesome.min.css" />
+    <link rel="stylesheet" href="~/lib/datatable/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="~/lib/datatable/css/buttons.dataTables.min.css" />
 </head>
 <body>
     <header>
@@ -28,7 +30,7 @@
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
-                        </li>              
+                        </li>
                         @foreach (var menu in listaMenu)
                         {
                             bool tiene_subMenu = menu.SubMenu.Count > 0 ? true : false;
@@ -84,6 +86,9 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <!--IMPLEMENTACION DE DATATABLE-->
+    <script src="~/lib/datatable/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/datatable/js/dataTables.buttons.min.js"></script>
     <!--IMPLEMENTACION DE ICONS-->
     <script src="~/js/all.min.js"></script>
     <script src="~/js/fontawesome.js"></script>

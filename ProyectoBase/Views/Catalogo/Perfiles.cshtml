@@ -1,0 +1,218 @@
+﻿@model ProyectoBase.Models.PerfilViewModel
+@{
+    ViewData["Title"] = "Perfiles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--#region IMPORTANTE PARA MODAL-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
+<style>
+    .bg-white {
+        background-color: #00b259 !important;
+    }
+</style>
+<!--#endregion -->
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                Perfiles
+            </div>
+            <div class="card-body">
+                <table id="tblPerfiles" class="table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalPerfil" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Perfil</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <input type="hidden" id="clavePerfil" />
+                        <div class="form-group">
+                            <strong>@Html.LabelFor(model => model.NombrePerfil)</strong>
+                            @Html.EditorFor(model => model.NombrePerfil, new { htmlAttributes = new { @class = "form-control", @id = "txtNombre" } })
+                            <label style="color:red; display:none;" id="ValidacionCampoNombre">Campo Obligatorio</label>
+                        </div>
+                        <div class="form-group">
+                            <strong>@Html.LabelFor(model => model.Descripcion)</strong>
+                            @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control", @id = "txtDescripcion" } })
+                            <label style="color:red; display:none;" id="ValidacionCampoDescripcion">Campo Obligatorio</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="CerrarModal"><i class="fa-solid fa-xmark"></i> Cerrar</button>
+                <button type="button" class="btn btn-primary" id="Guardar" onclick="Guardar()"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalValidacionEliminarPerfil" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Advertencia</h5>
+            </div>
+            <div class="modal-body">
+                <label><i class="fa fa-edge"> </i> No se puede eliminar este perfil debido a que esta relacionado a un usuario</label>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" id="CerrarModalValidacion"><i class="fa-solid fa-triangle-exclamation"></i> Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        var tabla_perfil;
+
+        $(document).ready(function () {
+            tabla_perfil = $('#tblPerfiles').DataTable({
+                "ajax": {
+                    "url": "@Url.Action("ListarPerfil", "Catalogo")",
+                    "type": "GET",
+                    "dataType":"json"
+                },
+                "columns": [
+                    { "data": "nombrePerfil" },
+                    { "data": "descripcion" },
+                    {
+                        "data": "clavePerfil", "render": function (data) {
+                            return "<button class='btn btn-primary btn-sm' type='button' onclick='abrirModal(" + data + ")'><i class='fas fa-pen'></i></button>" +
+                                "<button class='btn btn-danger btn-sm ml-2' type='button' onclick='Eliminar(" + data + ")'><i class='fa fa-trash'></i></button>"
+                        },
+                        "orderable": false,
+                        "searchable": false,
+                        "width":"150px"
+                    }
+                ],
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        text: 'Nuevo',
+                        attr: { class: 'btn btn-success' },
+                        action: function (e, dt, node, config) {
+                            abrirModal(0);
+                        }
+                    }
+                ],
+                 "language": {
+                     url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-ES.json'
+                 }
+            });
+
+            $("#CerrarModal").click(function () {
+                $("#ModalPerfil").modal("hide");
+                $('#ValidacionCampoNombre').hide();
+                $('#ValidacionCampoDescripcion').hide();
+            });
+
+            $("#CerrarModalValidacion").click(function () {
+                $("#ModalValidacionEliminarPerfil").modal("hide");
+            });
+        });
+
+        function abrirModal($ClavePerfil) {
+
+            $("#clavePerfil").val($ClavePerfil);
+            if ($ClavePerfil != 0) {
+                jQuery.ajax({
+                    url: "@Url.Action("ConsultarPerfil", "Catalogo")" + "?clavePerfil=" + $ClavePerfil,
+                    type: "GET",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data != null) {
+                            $("#txtNombre").val(data.nombrePerfil);
+                            $("#txtDescripcion").val(data.descripcion);
+                        }
+                    }
+                });
+            } else {
+                $("#txtNombre").val("");
+                $("#txtDescripcion").val("");
+            }
+
+            $("#ModalPerfil").modal("show");
+        }
+
+        function Guardar() {
+            var informacion = {
+                ClavePerfil: parseInt($("#clavePerfil").val()),
+                NombrePerfil: $("#txtNombre").val(),
+                Descripcion: $("#txtDescripcion").val()
+            }
+
+           /* console.log($data);*/
+
+            $.ajax({
+                url: "@Url.Action("GuardarPerfil", "Catalogo")",
+                type: "post",
+                data: informacion,
+                success: function (data) {
+                    if (data.resultado) {
+                        tabla_perfil.ajax.reload();
+                        $('#ModalPerfil').modal('hide');
+                        $('#ValidacionCampoNombre').hide();
+                        $('#ValidacionCampoDescripcion').hide();
+                    } else {
+                        $('#ValidacionCampoNombre').show();
+                        $('#ValidacionCampoDescripcion').show();
+                    }
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            });
+        }
+
+        function Eliminar($ClavePerfil) {
+            var clavePerfil = parseInt($ClavePerfil);
+            $("#clavePerfil").val($ClavePerfil);
+            if ($ClavePerfil != 0) {
+                     $.ajax({
+                     url: "@Url.Action("EliminarPerfil", "Catalogo")" + "?clavePerfil=" + $ClavePerfil,
+                     type: "get",
+                     data: clavePerfil,
+                     success: function (data) {
+                        if (data.resultado) {
+                            tabla_perfil.ajax.reload();
+                        } else {
+                            $('#ModalValidacionEliminarPerfil').modal("show");
+                        }
+                     },
+                    error: function (error) {
+                        console.log(error)
+                    }
+                });
+            }
+        }
+    </script>
+}
+
+<!--#region IMPORTANTE PARA MODAL-->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
+<!--#endregion -->

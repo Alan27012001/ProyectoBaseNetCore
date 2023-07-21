@@ -20,7 +20,7 @@ namespace ProyectoBase.Datos
                 List<Menu> lstMenu = new List<Menu>();
                 SqlCommand cmd = null;
                 SqlDataReader dr = null;
-                cmd = new SqlCommand("SEG_ConstularMenuPadre", conexion);
+                cmd = new SqlCommand("SEG_ConsultarMenuPadre", conexion);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Cuenta", cuentaUsuario);
                 conexion.Open();
@@ -62,7 +62,7 @@ namespace ProyectoBase.Datos
                 foreach (var item in oMenu)
                 {
                     //Obtener los SubMenu
-                    cmd = new SqlCommand("SEG_ConstularSubMenuPorModulo", conexion);
+                    cmd = new SqlCommand("SEG_ConsultarSubMenuPorModulo", conexion);
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@IdModulo", item.IdMenu);
                     cmd.Parameters.AddWithValue("@IdPerfil", item.IdPerfil);
