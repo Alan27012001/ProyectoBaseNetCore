@@ -19,27 +19,41 @@ namespace ProyectoBase.Controllers
             return View();
         }
 
+        #region Paises
         public IActionResult Paises()
         {
             //Proceso para menu
             ProcesoMostrarMenu();
 
+            //Obtener nombre de perfil por cuenta
+            MostrarNombrePerfilEnMenu();
+
             return View();
         }
+        #endregion
 
+        #region Estados
         public IActionResult Estados()
         {
             //Proceso para menu
             ProcesoMostrarMenu();
 
+            //Obtener nombre de perfil por cuenta
+            MostrarNombrePerfilEnMenu();
+
             return View();
         }
+        #endregion
 
         #region Perfiles
         public IActionResult Perfiles()
         {
             //Proceso para menu
             ProcesoMostrarMenu();
+
+            //Obtener nombre de perfil por cuenta
+            MostrarNombrePerfilEnMenu();
+
             return View();
         }
 
@@ -96,10 +110,19 @@ namespace ProyectoBase.Controllers
         }
         #endregion
 
+        #region Procesos Menu
         public void ProcesoMostrarMenu()
         {
             string json = HttpContext.Session.GetString("json");
             ViewBag.Json = json;
         }
+
+        public void MostrarNombrePerfilEnMenu()
+        {
+            ViewBag.Perfil = HttpContext.Session.GetString("NombrePerfil");
+        }
+
+        #endregion
+
     }
 }

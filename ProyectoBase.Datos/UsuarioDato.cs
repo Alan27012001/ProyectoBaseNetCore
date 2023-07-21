@@ -42,6 +42,7 @@ namespace ProyectoBase.Datos
                     oUsuario.ClaveArea = Convert.ToInt32(dr["ClaveArea"]);
                     oUsuario.Correo = string.IsNullOrEmpty(dr["Correo"].ToString()) ? string.Empty : dr["Correo"].ToString();
                     oUsuario.NumeroIntentoLogin = Convert.ToInt32(dr["NumeroIntentoLogin"]);
+                    oUsuario.NombrePerfil = string.IsNullOrEmpty(dr["NombrePerfil"].ToString()) ? string.Empty : dr["NombrePerfil"].ToString();
                 }
                 return oUsuario;
             }

@@ -43,6 +43,9 @@ namespace ProyectoBase.Controllers
             string json = JsonSerializer.Serialize(menuLista);
             ViewBag.Json = json;
 
+            //Obtener nombre de perfil por cuenta
+            ViewBag.Perfil = HttpContext.Session.GetString("NombrePerfil");
+
             //Guardar Json para otros controller
             HttpContext.Session.SetString("json",json);
             return View();

@@ -39,5 +39,6 @@ namespace ProyectoBase.Models
         
         public string Correo { get; set; }
         public int NumeroIntentoLogin { get; set; }
+        public string NombrePerfil { get; set; }
     }
 }

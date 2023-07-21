@@ -55,6 +55,9 @@ namespace ProyectoBase.Controllers
                     sesion.Fecha = DateTime.Now;
                     usuarioLogica.GuardarSesionUsuario(sesion);
 
+                    //Mostrar nombre de Perfil
+                    HttpContext.Session.SetString("NombrePerfil", usuario.NombrePerfil);
+
                     return Redirect("~/Home/Index");
                 }
                 else
