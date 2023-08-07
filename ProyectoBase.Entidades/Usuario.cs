@@ -7,6 +7,7 @@ namespace ProyectoBase.Entidades
         public int ClaveUsuario { get; set; }
         public string Contrasena { get; set; }
         public bool Activo { get; set; }
+        public string NombreEstatus { get; set; }
         public int Cuenta { get; set; }
         public bool EsAdmin { get; set; }
         public string NombreTrabajador { get; set; }

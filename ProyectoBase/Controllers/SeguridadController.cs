@@ -40,7 +40,7 @@ namespace ProyectoBase.Controllers
             {
                 usuario.Cuenta = modelo.Cuenta;
                 usuario.Contrasena = modelo.Contrasena;
-                usuario = usuarioLogica.ConsultarUsuario(usuario);
+                usuario = usuarioLogica.ConsultarUsuarioLogin(usuario);
 
                 if (usuario.ClaveUsuario != 0)
                 {

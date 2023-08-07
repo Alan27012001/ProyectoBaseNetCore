@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ProyectoBase.Entidades;
 using ProyectoBase.Logica;
 using ProyectoBase.Models;
@@ -110,6 +111,89 @@ namespace ProyectoBase.Controllers
         }
         #endregion
 
+        #region Usuarios
+        public IActionResult Usuarios()
+        {
+            //Proceso para menu
+            ProcesoMostrarMenu();
+
+            //Obtener nombre de perfil por cuenta
+            MostrarNombrePerfilEnMenu();
+
+            //Llenado de combo de Perfiles
+            PerfilLogica perfilLogica = new PerfilLogica();
+            List<Perfil> lstPerfiles = new List<Perfil>();
+            lstPerfiles = perfilLogica.ConsultarPerfiles();
+            ViewBag.Perfiles = new SelectList(lstPerfiles, "ClavePerfil", "NombrePerfil");
+
+            return View();
+        }
+
+        public JsonResult ListarUsuario()
+        {
+            UsuarioLogica usuarioLogica = new UsuarioLogica();
+            List<Usuario> lstUsuarios = new List<Usuario>();
+            lstUsuarios = usuarioLogica.ConsultarUsuarios();
+            return Json(new { data = lstUsuarios });
+        }
+
+        public JsonResult ConsultarUsuario(UsuarioViewModel modelo)
+        {
+            UsuarioLogica usuarioLogica = new UsuarioLogica();
+            Usuario usuario = new Usuario();
+            usuario.ClaveUsuario = modelo.ClaveUsuario;
+            usuario = usuarioLogica.ConsultarUsuario(usuario);
+
+            return Json(usuario);
+        }
+
+        [HttpPost]
+        public JsonResult GuardarUsuario(UsuarioGuardarViewModel oUsuario)
+        {
+            UsuarioLogica usuarioLogica = new UsuarioLogica();
+            Usuario usuario = new Usuario();
+            bool respuesta = true;
+            if (ModelState.IsValid)
+            {
+                usuario.ClaveUsuario = oUsuario.ClaveUsuario;
+                usuario.Contrasena = oUsuario.Contrasena;
+                usuario.Activo = oUsuario.Activo;
+                usuario.Cuenta = oUsuario.Cuenta;
+                usuario.EsAdmin = oUsuario.EsAdmin;
+                usuario.NombreTrabajador = oUsuario.NombreTrabajador;
+                usuario.ClaveDepartamento = oUsuario.ClaveDepartamento;
+                usuario.NombreDepartamento = oUsuario.NombreDepartamento;
+                usuario.ClavePerfil = oUsuario.ClavePerfil;
+                usuario.NombrePuesto = oUsuario.NombrePuesto;
+                usuario.ClavePuesto = oUsuario.ClavePuesto;
+                usuario.ClaveArea = oUsuario.ClaveArea;
+                usuario.Correo = oUsuario.Correo;
+
+                usuarioLogica.GuardarUsuario(usuario);
+            }
+            else
+            {
+                respuesta = false;
+            }
+            return Json(new { resultado = respuesta });
+        }
+
+        public JsonResult EliminarUsuario(int claveUsuario)
+        {
+            bool respuesta = true;
+            UsuarioLogica usuarioLogica = new UsuarioLogica();
+            try
+            {
+                usuarioLogica.EliminarUsuario(claveUsuario);
+            }
+            catch
+            {
+                respuesta = false;
+            }
+            return Json(new { resultado = respuesta });
+        }
+        #endregion
+
         #region Procesos Menu
         public void ProcesoMostrarMenu()
         {
@@ -123,6 +207,5 @@ namespace ProyectoBase.Controllers
         }
 
         #endregion
-
     }
 }
